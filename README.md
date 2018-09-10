@@ -12,7 +12,7 @@ James Todd: JamesToddNau95@gmail.com
 
 ***Requires python 3.6.0 interpreter or higher to successfully run.***
 
-***This program currently works on Windows 10 & Mac Machines***
+***This program currently works on Windows 10 & macOS High Sierra Version 10.13.6 at least. Other versions are untested.***
 
 ---
 
@@ -23,12 +23,12 @@ James Todd: JamesToddNau95@gmail.com
 
    * ***Via command line (SSH):*** wherever you would like to clone the repository, type the following...:
    ```
-   $ git clonegit@github.com:Swhite9478/CS499-Group02.git
+   $ git clone git@github.com:NAU-OSS/CS499-Group02.git
    ```
 
    * ***Via Command Line (HTTPS):*** Wherever you would like to clone the repository, type the following...
    ```
-   $ git clone https://github.com/Swhite9478/CS499-Group02.git  
+   $ git clone https://github.com/NAU-OSS/CS499-Group02.git  
    ```
 
    * ***Via GitHub:*** Click "Clone or Download" -> "Download Zip File"
