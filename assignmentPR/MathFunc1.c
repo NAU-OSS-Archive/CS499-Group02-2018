@@ -59,11 +59,11 @@ int compareString(const char *stringOne, const char *stringTwo);
 
 int isSpace(unsigned char character);
 
-int getDataTo(FILE *fp, char delimeter, char *dataPtr);
+int getDataTo(char *string, char delimeter, char *dataPtr);
 
 void cleanCharArray(char *charArray, int arraySize);
 
-char skipWhiteSpace(FILE *fp);
+char skipWhiteSpace(char *string);
 
 int isNumericChar(char character);
 
@@ -80,9 +80,23 @@ int myStrLen(char *string);
 
 int main()
 {
+    printf("\n\n");
     char number[] = "123.456";
     int c, n, d;
 
+    bool result = characteristic(number, &c);
+    
+    if(result == true)
+    {
+        printf("True\n");
+        printf("Within Main: %d\n", c);
+    }
+    else
+    {
+        printf("False\n");
+    }
+
+    /*
     //if the conversion from C string to integers can take place
     if (characteristic(number, &c) && mantissa(number, &n, &d))
     {
@@ -91,15 +105,49 @@ int main()
     else
     {
         //handle the error on input
-    }
+    }*/
 }
 
 bool characteristic(char numString[], int* c)
 {
+    // If we can get data up to a decimal point, then true
+    // if there is no decimal point, than go until \0 and return true 
+       // Save the characteristic in c
+    char num[CHAR_ARRAY_SIZE_MAX];
+    cleanCharArray(num, CHAR_ARRAY_SIZE_MAX);
+        
+    int iterator;
+    for(iterator = 0; numString[iterator] != '\0'; iterator++)
+    {
+        num[iterator] = numString[iterator];
+        if(numString[iterator] == '.')
+        {
+            num[iterator] = '\0';
+            *c = myAtoi(num);
+            return true;
+        }
+    }
+
+    // If the num string contains non-numeric vals, return false 
     return false;
 }
+
 bool mantissa(char numString[], int* numerator, int *denominator)
 {
+    // If we can get data up to a decimal point, that means we have a characteristic & mantissa 
+       // Get data from the . to the \0 and if we can, return true
+       // save the numerator and denominator
+
+    int iterator, converted;
+    for (iterator = 0; numString[iterator] != '\0'; iterator++)
+    {
+        if (numString[iterator] == '.')
+        {
+            
+        }
+    }
+
+    // If the num string contains non-numeric vals, return false
     return false; 
 }
 
@@ -118,6 +166,7 @@ function will return false. If the passed in string was valid return true.
 
 
 /* Utility Functions */ 
+
 
 // Function to copy the contents of one char array into another so that
 // it will not be erased when a pointer is moved
@@ -163,28 +212,6 @@ int isSpace(unsigned char character)
     }
 }
 
-// get dataPtr from fgetc to a given delimeter and place it in my char *dataPtr
-int getDataTo(FILE *fPtr, char delimeter, char *dataPtr)
-{
-    char character = skipWhiteSpace(fPtr);
-    if (character == '\0')
-    {
-        return CONFIG_FILE_ERROR;
-    }
-    cleanCharArray(dataPtr, CHAR_ARRAY_SIZE_MAX);
-    int index = 0;
-    while (character != delimeter)
-    {
-        if (feof(fPtr) == 1 || character == '\0' || index == 80)
-        {
-            return FAILED_EXECUTION;
-        }
-        dataPtr[index] = character;
-        character = fgetc(fPtr);
-        index = index + 1;
-    }
-    return SUCCESSFUL_VALIDATION;
-}
 
 // "clean out" a given char array by filling it entirely with the null char.
 // this prevents the presence of any "UN-Readable" character within this array
@@ -197,21 +224,7 @@ void cleanCharArray(char *charArray, int arraySize)
     }
 }
 
-// skip all things that could be considered whitespace and return the first char
-// after that.
-char skipWhiteSpace(FILE *fPtr)
-{
-    char character = fgetc(fPtr);
-    while ((int)character <= WHITESPACE)
-    {
-        if (feof(fPtr) == 1)
-        {
-            return '\0';
-        }
-        character = fgetc(fPtr);
-    }
-    return character;
-}
+
 
 // Modified from https://www.geeksforgeeks.org/write-your-own-atoi/
 // A utility function to check whether character is numeric
@@ -281,32 +294,6 @@ void reverse(char string[])
     }
 }
 
-/* Modified from https://en.wikibooks.org/wiki/C_Programming/stdlib.h/itoa */
-void intToString(int num, char string[])
-{
-
-    int index, sign;
-
-    if ((sign = num) < 0)
-    {
-        /* record sign */
-        num = -num; /* make n positive */
-    }
-
-    index = 0;
-
-    do
-    {                                     /* generate digits in reverse order */
-        string[index++] = num % 10 + '0'; /* get next digit */
-    } while ((num /= 10) > 0);            /* delete it */
-
-    if (sign < 0)
-    {
-        string[index++] = '-';
-    }
-    string[index] = '\0';
-    reverse(string);
-}
 
 int myStrLen(char *string)
 {
