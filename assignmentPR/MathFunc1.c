@@ -75,6 +75,8 @@ void intToString(int num, char string[]);
 
 int myStrLen(char *string);
 
+int tenToThePowerOf(int stringLength);
+
 
 /* Function implementations */
 
@@ -84,12 +86,13 @@ int main()
     char number[] = "123.456";
     int c, n, d;
 
-    bool result = characteristic(number, &c);
+    bool result = mantissa(number, &n, &d);
     
     if(result == true)
     {
         printf("True\n");
-        printf("Within Main: %d\n", c);
+        printf("n within main: %d\n", n);
+        printf("d within main: %d\n", d);
     }
     else
     {
@@ -120,6 +123,20 @@ bool characteristic(char numString[], int* c)
     for(iterator = 0; numString[iterator] != '\0'; iterator++)
     {
         num[iterator] = numString[iterator];
+
+        // Skip all whitespace 
+        if (num[iterator] <= 32)
+        {
+            continue; 
+        }
+
+        // Catch all letters 
+        if (!isNumericChar(num[iterator]) && numString[iterator] != '.')
+        {
+            return false;
+        }
+
+        // if we hit the delimeter 
         if(numString[iterator] == '.')
         {
             num[iterator] = '\0';
@@ -138,17 +155,75 @@ bool mantissa(char numString[], int* numerator, int *denominator)
        // Get data from the . to the \0 and if we can, return true
        // save the numerator and denominator
 
-    int iterator, converted;
+    char num[CHAR_ARRAY_SIZE_MAX];
+    cleanCharArray(num, CHAR_ARRAY_SIZE_MAX);
+
+    int iterator;
     for (iterator = 0; numString[iterator] != '\0'; iterator++)
     {
+        num[iterator] = numString[iterator];
+
+        // Skip all whitespace
+        if (num[iterator] <= 32)
+        {
+            continue;
+        }
+
+        // Catch all letters
+        if (!isNumericChar(num[iterator]) && numString[iterator] != '.')
+        {
+            return false;
+        }
+
+        // if we hit the delimeter
         if (numString[iterator] == '.')
         {
-            
+            numString[iterator++];
+            cleanCharArray(num, CHAR_ARRAY_SIZE_MAX);
+            break;            
         }
     }
 
+    int newNumIterator = 0;
+    for (iterator; numString[iterator] != '\0'; iterator++)
+    {
+        num[newNumIterator] = numString[iterator];
+        printf("Char: %c\n\n", num[newNumIterator]);
+
+        // Skip all whitespace
+        if (num[newNumIterator] <= 32)
+        {
+            continue;
+        }
+
+        // Catch all letters
+        if (!isNumericChar(num[newNumIterator]))
+        {
+            return false;
+        }
+
+        newNumIterator++;
+    }
+
     // If the num string contains non-numeric vals, return false
-    return false; 
+    *numerator = myAtoi(num);
+    *denominator = tenToThePowerOf(myStrLen(num));
+
+    printf("In Mantissa -> numerator: %d\n", *numerator);
+    printf("In Mantissa -> denominator: %d\n", *denominator);
+
+    return true; 
+}
+
+int tenToThePowerOf(int stringLength)
+{
+    int answer = 1;
+    int iterator;
+    for (iterator = 0; iterator < stringLength; iterator++)
+    {
+        answer *= 10;
+    }
+    return answer;
 }
 
 /*
@@ -199,18 +274,6 @@ int compareString(const char *stringOne, const char *stringTwo)
                : 1;
 }
 
-// determines whether or not a character is a space
-int isSpace(unsigned char character)
-{
-    if (character == ' ')
-    {
-        return 1;
-    }
-    else
-    {
-        return -1;
-    }
-}
 
 
 // "clean out" a given char array by filling it entirely with the null char.
