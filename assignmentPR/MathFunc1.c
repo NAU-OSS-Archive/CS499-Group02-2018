@@ -16,31 +16,10 @@ typedef int bool;
 #define true 1
 #define false 0
 
-const int SAME_STRING = 0;          // Utility Constants
-const int CHAR_ARRAY_SIZE_MAX = 80; // Array Size Constants
-const int CHAR_ARRAY_SIZE_MIN = 40;
-const int CHAR_ARRAY_SIZE_AVG = 60;
-
-const int CONFIG_FILE_ERROR = -3; // Config File Error Code
-
-const int WHITESPACE = 32;
-
-const int SUCCESSFUL_EXECUTION = 0; // General Program Error/Sucess Codes
-const int SUCCESSFUL_VALIDATION = 0;
-const int FAILED_EXECUTION = -1;
+const int CHAR_ARRAY_SIZE_MAX = 80; 
 const int INT_CONVERSION_ERROR = -1;
-
-const char NULL_CHAR = '\0';
-const char NEW_LINE = '\n';
-const char CARRIAGE_RETURN = '\r';
-const char TAB = '\t';
-const char SEMICOLON = ';';
-const char COLON = ':';
-const char SPACE = ' ';
-const char DOT = '.';
-const char OPEN_PARENTHESES = '(';
-const char CLOSED_PARENTHESES = ')';
-const char *ZERO_STRING = "0";
+const int WHITESPACE = 32; 
+const int SAME_STRING = 0;
 
 
 /* Function Declarations */
@@ -49,29 +28,15 @@ bool characteristic(char numString[], int *c);
 
 bool mantissa(char numString[], int *numerator, int *denominator);
 
-void myStrCpy(char *string1, char *string2);
-
-char *myStrCat(char *dest, const char *src);
-
-void concatMultiple(int numArguments, char *dest, ...);
-
 int compareString(const char *stringOne, const char *stringTwo);
 
-int isSpace(unsigned char character);
-
-int getDataTo(char *string, char delimeter, char *dataPtr);
-
 void cleanCharArray(char *charArray, int arraySize);
-
-char skipWhiteSpace(char *string);
 
 int isNumericChar(char character);
 
 int myAtoi(char *stringSequence);
 
 void reverse(char string[]);
-
-void intToString(int num, char string[]);
 
 int myStrLen(char *string);
 
@@ -80,35 +45,25 @@ int tenToThePowerOf(int stringLength);
 
 /* Function implementations */
 
-int main()
+int main(int argv,  char *argc)
 {
-    printf("\n\n");
-    char number[] = "123.456";
-    int c, n, d;
-
-    bool result = mantissa(number, &n, &d);
+    printf("\n");
+    char number[] = "-0.456";
     
-    if(result == true)
-    {
-        printf("True\n");
-        printf("n within main: %d\n", n);
-        printf("d within main: %d\n", d);
-    }
-    else
-    {
-        printf("False\n");
-    }
-
-    /*
+    int c, n, d;
+    
     //if the conversion from C string to integers can take place
     if (characteristic(number, &c) && mantissa(number, &n, &d))
     {
-        //do some math with c, n, and d
+        printf("Value of c: %d\n", c);
+        printf("Value of n: %d\n", n);
+        printf("Value of d: %d\n", d);
     }
     else
     {
-        //handle the error on input
-    }*/
+        printf("\nInvalid number sequence.\n");
+    }
+    printf("\n");
 }
 
 bool characteristic(char numString[], int* c)
@@ -141,6 +96,7 @@ bool characteristic(char numString[], int* c)
         {
             num[iterator] = '\0';
             *c = myAtoi(num);
+
             return true;
         }
     }
@@ -155,8 +111,14 @@ bool mantissa(char numString[], int* numerator, int *denominator)
        // Get data from the . to the \0 and if we can, return true
        // save the numerator and denominator
 
+    int negativeFlag = 0;
     char num[CHAR_ARRAY_SIZE_MAX];
     cleanCharArray(num, CHAR_ARRAY_SIZE_MAX);
+
+    if (numString[0] == '-' && numString[1] == '0')
+    {
+        negativeFlag = 1;
+    }
 
     int iterator;
     for (iterator = 0; numString[iterator] != '\0'; iterator++)
@@ -164,7 +126,7 @@ bool mantissa(char numString[], int* numerator, int *denominator)
         num[iterator] = numString[iterator];
 
         // Skip all whitespace
-        if (num[iterator] <= 32)
+        if (num[iterator] <= WHITESPACE)
         {
             continue;
         }
@@ -188,10 +150,9 @@ bool mantissa(char numString[], int* numerator, int *denominator)
     for (iterator; numString[iterator] != '\0'; iterator++)
     {
         num[newNumIterator] = numString[iterator];
-        printf("Char: %c\n\n", num[newNumIterator]);
 
         // Skip all whitespace
-        if (num[newNumIterator] <= 32)
+        if (num[newNumIterator] <= WHITESPACE)
         {
             continue;
         }
@@ -207,24 +168,16 @@ bool mantissa(char numString[], int* numerator, int *denominator)
 
     // If the num string contains non-numeric vals, return false
     *numerator = myAtoi(num);
-    *denominator = tenToThePowerOf(myStrLen(num));
+    if ( negativeFlag )
+    {
+        *numerator *= -1;
+    }
 
-    printf("In Mantissa -> numerator: %d\n", *numerator);
-    printf("In Mantissa -> denominator: %d\n", *denominator);
+    *denominator = tenToThePowerOf(myStrLen(num));
 
     return true; 
 }
 
-int tenToThePowerOf(int stringLength)
-{
-    int answer = 1;
-    int iterator;
-    for (iterator = 0; iterator < stringLength; iterator++)
-    {
-        answer *= 10;
-    }
-    return answer;
-}
 
 /*
 
@@ -240,20 +193,7 @@ function will return false. If the passed in string was valid return true.
 */
 
 
-/* Utility Functions */ 
-
-
-// Function to copy the contents of one char array into another so that
-// it will not be erased when a pointer is moved
-void myStrCpy(char *destination, char *source)
-{
-    int index = 0;
-    while (source[index] != NULL_CHAR)
-    {
-        destination[index] = source[index];
-        index = index + 1;
-    }
-}
+/* Utility Functions */
 
 /* compares two strings, returns 0 for same, -1 for different.
    method adapted from online source:
@@ -274,8 +214,6 @@ int compareString(const char *stringOne, const char *stringTwo)
                : 1;
 }
 
-
-
 // "clean out" a given char array by filling it entirely with the null char.
 // this prevents the presence of any "UN-Readable" character within this array
 void cleanCharArray(char *charArray, int arraySize)
@@ -288,19 +226,21 @@ void cleanCharArray(char *charArray, int arraySize)
 }
 
 
-
 // Modified from https://www.geeksforgeeks.org/write-your-own-atoi/
 // A utility function to check whether character is numeric
 int isNumericChar(char character)
 {
-    return (character >= '0' && character <= '9') ? true : false;
+    return (character >= '0' && character <= '9' || character == '-') ? true : false;
 }
+
 
 // Modified from https://www.geeksforgeeks.org/write-your-own-atoi/
 // A simple atoi() function. If the given string contains
 // any invalid character, then this function returns INT_CONVERSION_ERROR
 int myAtoi(char *stringSequence)
 {
+    int negativeFlag = 0;
+
     if (compareString(stringSequence, "\0") == SAME_STRING)
     {
         return INT_CONVERSION_ERROR;
@@ -312,7 +252,8 @@ int myAtoi(char *stringSequence)
     // If number is negative, then fail gracefully
     if (stringSequence[0] == '-')
     {
-        return INT_CONVERSION_ERROR;
+        negativeFlag = 1;
+        index = 1;
     }
 
     // Iterate through all digits of input string and update result
@@ -339,8 +280,14 @@ int myAtoi(char *stringSequence)
             result = (result * 10) + stringSequence[index] - '0';
         }
     }
+
+    if ( negativeFlag == 1) 
+    {
+        return -1 *result;
+    }
     return result;
 }
+
 
 /* Modified from https://en.wikibooks.org/wiki/C_Programming/stdlib.h/itoa */
 void reverse(char string[])
@@ -358,6 +305,7 @@ void reverse(char string[])
 }
 
 
+/* Returns the length of a char array */
 int myStrLen(char *string)
 {
     int count = 0;
@@ -366,4 +314,17 @@ int myStrLen(char *string)
         count++;
     }
     return count;
+}
+
+
+/* Returns the numeric value of 10 ^ stringLength */
+int tenToThePowerOf(int stringLength)
+{
+    int answer = 1;
+    int iterator;
+    for (iterator = 0; iterator < stringLength; iterator++)
+    {
+        answer *= 10;
+    }
+    return answer;
 }
