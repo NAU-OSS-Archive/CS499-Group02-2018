@@ -1,4 +1,4 @@
-/* 
+/*
 
 MathFunc01.c
 Written by Stephen White, Kalen Wood-Wardlow, & Gary Baker
@@ -16,9 +16,9 @@ typedef int bool;
 #define true 1
 #define false 0
 
-const int CHAR_ARRAY_SIZE_MAX = 80; 
+const int CHAR_ARRAY_SIZE_MAX = 80;
 const int INT_CONVERSION_ERROR = -1;
-const int WHITESPACE = 32; 
+const int WHITESPACE = 32;
 const int SAME_STRING = 0;
 
 
@@ -36,8 +36,6 @@ int isNumericChar(char character);
 
 int myAtoi(char *stringSequence);
 
-void reverse(char string[]);
-
 int myStrLen(char *string);
 
 int tenToThePowerOf(int stringLength);
@@ -45,13 +43,13 @@ int tenToThePowerOf(int stringLength);
 
 /* Function implementations */
 
-int main(int argv,  char *argc)
+int main(int argc, char *argv[])
 {
     printf("\n");
     char number[] = "-0.456";
-    
+
     int c, n, d;
-    
+
     //if the conversion from C string to integers can take place
     if (characteristic(number, &c) && mantissa(number, &n, &d))
     {
@@ -69,29 +67,29 @@ int main(int argv,  char *argc)
 bool characteristic(char numString[], int* c)
 {
     // If we can get data up to a decimal point, then true
-    // if there is no decimal point, than go until \0 and return true 
-       // Save the characteristic in c
+    // if there is no decimal point, than go until \0 and return true
+    // Save the characteristic in c
     char num[CHAR_ARRAY_SIZE_MAX];
     cleanCharArray(num, CHAR_ARRAY_SIZE_MAX);
-        
+
     int iterator;
     for(iterator = 0; numString[iterator] != '\0'; iterator++)
     {
         num[iterator] = numString[iterator];
 
-        // Skip all whitespace 
+        // Skip all whitespace
         if (num[iterator] <= 32)
         {
-            continue; 
+            continue;
         }
 
-        // Catch all letters 
+        // Catch all letters
         if (!isNumericChar(num[iterator]) && numString[iterator] != '.')
         {
             return false;
         }
 
-        // if we hit the delimeter 
+        // if we hit the delimeter
         if(numString[iterator] == '.')
         {
             num[iterator] = '\0';
@@ -101,15 +99,15 @@ bool characteristic(char numString[], int* c)
         }
     }
 
-    // If the num string contains non-numeric vals, return false 
+    // If the num string contains non-numeric vals, return false
     return false;
 }
 
 bool mantissa(char numString[], int* numerator, int *denominator)
 {
-    // If we can get data up to a decimal point, that means we have a characteristic & mantissa 
-       // Get data from the . to the \0 and if we can, return true
-       // save the numerator and denominator
+    // If we can get data up to a decimal point, that means we have a characteristic & mantissa
+    // Get data from the . to the \0 and if we can, return true
+    // save the numerator and denominator
 
     int negativeFlag = 0;
     char num[CHAR_ARRAY_SIZE_MAX];
@@ -142,7 +140,7 @@ bool mantissa(char numString[], int* numerator, int *denominator)
         {
             numString[iterator++];
             cleanCharArray(num, CHAR_ARRAY_SIZE_MAX);
-            break;            
+            break;
         }
     }
 
@@ -175,7 +173,7 @@ bool mantissa(char numString[], int* numerator, int *denominator)
 
     *denominator = tenToThePowerOf(myStrLen(num));
 
-    return true; 
+    return true;
 }
 
 
@@ -187,17 +185,17 @@ bool mantissa(char numString[], int* numerator, int *denominator)
 */
 int compareString(const char *stringOne, const char *stringTwo)
 {
-    for (; *stringOne == *stringTwo; ++stringOne, ++stringTwo)
-    {
-        if (*stringOne == 0)
-        {
-            return 0;
-        }
-    }
-    return *(unsigned char *)
-                       stringOne < *(unsigned char *)stringTwo
-               ? -1
-               : 1;
+   // Iterate over the whole string
+   for (; *stringOne == *stringTwo; ++stringOne, ++stringTwo)
+   {
+      // If we have reached the end of stringOne, these two are the same!
+      if (*stringOne == 0)
+      {
+         return 0;
+      }
+   }
+   // Determine if the strings are not the same
+   return *(unsigned char *) stringOne < *(unsigned char *)stringTwo ? -1 : 1;
 }
 
 // "clean out" a given char array by filling it entirely with the null char.
@@ -267,27 +265,11 @@ int myAtoi(char *stringSequence)
         }
     }
 
-    if ( negativeFlag == 1) 
+    if ( negativeFlag == 1)
     {
         return -1 *result;
     }
     return result;
-}
-
-
-/* Modified from https://en.wikibooks.org/wiki/C_Programming/stdlib.h/itoa */
-void reverse(char string[])
-{
-    int count, stringLength;
-    char character;
-
-    for (count = 0, stringLength = myStrLen(string) - 1; count < stringLength;
-         count++, stringLength--)
-    {
-        character = string[count];
-        string[count] = string[stringLength];
-        string[stringLength] = character;
-    }
 }
 
 
