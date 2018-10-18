@@ -60,12 +60,9 @@ It is possible to classify arunsrinivasan as a main contributor with 975 commits
   * Stack Overflow (data.table tag) → Used to answer the community’s questions based on issues that have been raised on GitHub. 
   * Data.Table FAQ → Frequently asked questions by the community. “Read all of these questions even if you don’t have them yet.” 
   * Have you already used any of them?
-We have used Stack Overflow in the past to answer questions we have had about programming language/general purpose programming. 
-
-We have used Twitter for general leisure, and research purposes.  
- 
-We have used the GitHub Issue Tracker in the past for this class. 
-
+  * We have used Stack Overflow in the past to answer questions we have had about programming language/general purpose programming. 
+  * We have used Twitter for general leisure, and research purposes.  
+  * We have used the GitHub Issue Tracker in the past for this class. 
 ## Workspace setup
 
   * Are there tutorials, guidelines or FAQs about setting up the local workspace?
