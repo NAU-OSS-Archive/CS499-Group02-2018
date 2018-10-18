@@ -10,8 +10,8 @@ If you don't know, try to search for it. If you don't find, fill with N/A
 
 ## Governance Model
 
-  * Discuss the governance model of the project you are working on
-For data.table, the governance model that appears to be in use is Consensus-Based Democracy but it is mediated by two main parties, Matt Dowle and Arun Srinivasan. These two members of the project are the main reviewers of pull requests but in the past year the vast majority of commits were made by Matt Dowle, with a few others mixed in but those few others are a very low percentage of the total commits in the last year.
+Discuss the governance model of the project you are working on.
+* For data.table, the governance model that appears to be in use is Consensus-Based Democracy but it is mediated by two main parties, Matt Dowle and Arun Srinivasan. These two members of the project are the main reviewers of pull requests but in the past year the vast majority of commits were made by Matt Dowle, with a few others mixed in but those few others are a very low percentage of the total commits in the last year.
 
 
 
