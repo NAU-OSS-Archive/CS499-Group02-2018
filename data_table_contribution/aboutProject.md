@@ -55,13 +55,13 @@ It is possible to classify arunsrinivasan as a main contributor with 975 commits
 ## Communicating with the community
   
   * What are the communication means available and what are the focus of each? (Forums, mailing lists, issue tracker, IRC, Slack, etc.)
-Issue tracker within GitHub → The project’s main contributors use this to answer questions about issues before considering merging. 
+*Issue tracker within GitHub → The project’s main contributors use this to answer questions about issues before considering merging. 
 
-Twitter for communicating. The project’s two main contributors use this to send out information to the project’s users. 
+*Twitter for communicating. The project’s two main contributors use this to send out information to the project’s users. 
 
-Stack Overflow (data.table tag) → Used to answer the community’s questions based on issues that have been raised on GitHub. 
+*Stack Overflow (data.table tag) → Used to answer the community’s questions based on issues that have been raised on GitHub. 
 
-Data.Table FAQ → Frequently asked questions by the community. “Read all of these questions even if you don’t have them yet.” 
+*Data.Table FAQ → Frequently asked questions by the community. “Read all of these questions even if you don’t have them yet.” 
 
   * Have you already used any of them?
 We have used Stack Overflow in the past to answer questions we have had about programming language/general purpose programming. 
